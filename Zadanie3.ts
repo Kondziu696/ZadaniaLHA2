@@ -1,20 +1,33 @@
-const getSkippedSentence = (sentence: string, skip: number) => {
-  if (sentence.length === 0) {
-    console.log("Argument 'sentence' jest pusty.");
-    return undefined;
+const changeFirstLetters = (text: string): string => {
+  if (text.length === 0) {
+    console.log("Zbyt krótki ciąg znaków do użycia funkcji");
+    return text;
   }
-  if (sentence.length <= skip) {
-    console.log("Argument 'sentence' jest zbyt krótki.");
-    return undefined;
-  }
+  const parts: string[] = text.split(" ");
 
-  let newString = "";
+  const result = parts.reduce((accumulator, element) => {
+    const firstLetter = element.charAt(0);
+    let modifiedFirstLetter = "";
 
-  for (let i = 0; i < sentence.length; i += skip) {
-    newString = newString + sentence.charAt(i);
-  }
+    if (firstLetter === firstLetter.toUpperCase()) {
+      modifiedFirstLetter = firstLetter.toLowerCase();
+    } else if (firstLetter === firstLetter.toLowerCase()) {
+      modifiedFirstLetter = firstLetter.toUpperCase();
+    } else {
+      console.log("Słowo nie zaczyna się od litery.");
+    }
 
-  return newString;
+    const modifiedElement = element.replace(/^./, modifiedFirstLetter);
+
+    if (accumulator === "") {
+      return modifiedElement;
+    } else {
+      return accumulator + " " + modifiedElement;
+    }
+  }, "");
+
+  return result;
 };
 
-console.log(getSkippedSentence("", 3));
+const exampleText = "Pisze tutaj cokolwiek, a Ala ma kota";
+console.log(changeFirstLetters(exampleText));

@@ -1,15 +1,29 @@
-const getRandomElement = (array: string[]): string | undefined => {
-  const filteredArray = array.filter((x) => x !== "");
-  const maxElement = filteredArray.length;
+const getCleanedZipCode = (value: string | number): string => {
+  const stringValue = value.toString();
 
-  if (maxElement === 0) return;
+  if (stringValue.length < 5 || stringValue.length > 6) {
+    console.log("Niepoprawny format ZipCode");
+    return "";
+  }
 
-  return array[Math.floor(Math.random() * maxElement)];
+  const reg = /[^0-9]/g;
+  const cleanedValue = stringValue.replace(reg, "");
+
+  if (cleanedValue.length !== 5) {
+    console.log("Niepoprawny format ZipCode");
+    return "";
+  }
+
+  const finalValue = cleanedValue.slice(0, 2) + "-" + cleanedValue.slice(2);
+  return finalValue;
 };
 
-const exampleArray = ["", ""];
-const result1 = getRandomElement(exampleArray);
-const result2 = getRandomElement(exampleArray);
-
-console.log(result1);
-console.log(result2);
+console.log(getCleanedZipCode(""));
+console.log(getCleanedZipCode("123"));
+console.log(getCleanedZipCode(123));
+console.log(getCleanedZipCode("1-2-3-4-5"));
+console.log(getCleanedZipCode("12-345"));
+console.log(getCleanedZipCode("12 345"));
+console.log(getCleanedZipCode("12345"));
+console.log(getCleanedZipCode(12345));
+console.log(getCleanedZipCode("123456"));
